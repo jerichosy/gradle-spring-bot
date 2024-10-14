@@ -26,7 +26,7 @@ public class SpringBot {
     public GatewayDiscordClient gatewayDiscordClient() {
         return DiscordClientBuilder.create(botToken).build()
             .gateway()
-            .setInitialPresence(ignore -> ClientPresence.online(ClientActivity.listening("to /commands")))
+            .setInitialPresence(ignore -> ClientPresence.online(ClientActivity.custom("\uD83D\uDE80 has better internet than Wai")))
             .login()
             .block();
     }
