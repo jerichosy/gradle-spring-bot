@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.discord4j:discord4j-core:3.2.0")
+    implementation("com.discord4j:discord4j-core:3.2.6")
     implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation("org.springframework.boot:spring-boot-starter-web:2.5.4")
 }
