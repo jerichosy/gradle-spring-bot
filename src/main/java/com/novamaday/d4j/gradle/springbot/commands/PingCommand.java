@@ -15,7 +15,7 @@ public class PingCommand implements SlashCommand {
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         //We reply to the command with "Pong!" and make sure it is ephemeral (only the command user can see it)
         return event.reply()
-            .withEphemeral(true)
+            .withEphemeral(false)
             .withContent("Pong!");
     }
 }
