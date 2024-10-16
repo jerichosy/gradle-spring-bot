@@ -1,10 +1,10 @@
-# Discord4J Example Projects
+# Discord4J Gradle Spring Bot Project
 
 <a href="https://discord4j.com"><img align="right" src="https://raw.githubusercontent.com/Discord4J/discord4j-web/master/public/logo.svg?sanitize=true" width=27%></a>
 
 [![Support Server Invite](https://img.shields.io/discord/208023865127862272.svg?color=7289da&label=Discord4J&logo=discord&style=flat-square)](https://discord.gg/d4j)
 
-Provided are a set of very simple example projects showcasing two simple slash commands: ping-pong and greet using Discord4J `3.2.0`.
+Uses Discord4J `3.2.6`.
 
 ## 🔗 Quick Links
 
@@ -15,7 +15,7 @@ Provided are a set of very simple example projects showcasing two simple slash c
 
 ## Interactions
 
-Discord4J has full support for interactions. These example projects showcase how to easily create, manage, and respond to application commands (slash commands). More details on using interactions with D4J can be found in our docs.
+Discord4J has full support for interactions. This project showcases how to easily create, manage, and respond to application commands (slash commands). More details on using interactions with D4J can be found in their docs.
 
 ## ✅ Inviting Your Bot
 
@@ -28,17 +28,17 @@ https://discord.com/oauth2/authorize?client_id={CLIENT_ID_HERE}&permissions=0&sc
 This invite link allows inviting your bot to a server, and enabling application commands from your bot. This template link does not provide any additional permissions or scopes. To create a fully customized link, discord offers an invite link builder on the developer applications page (Click into your bot application, and navigate to the "OAuth2" page)
 
 ## 📦 Dependency Managers
-Each project is duplicated in Maven and Gradle to show how to import Discord4J into your project with the package manager of your choice.
+This project uses Gradle but there are other [examples](https://github.com/Discord4J/example-projects) that show how to import Discord4J into your project using Maven instead.
 
 ## 📐 Spring Boot
 
-Discord4J is fully compatible with the Spring Boot framework, and a set of example projects are provided showcasing what is possible with Spring and Discord4J together; simplifying and/or removing boilerplate shown in the Discord4J-only projects.
+Discord4J is fully compatible with the Spring Boot framework, and this project showcases what is possible with Spring and Discord4J together; simplifying and/or removing boilerplate seen in Discord4J-only projects.
 
 ## 🧾 Logging
 
 * [Logging Docs](https://docs.discord4j.com/logging/)
 
-Discord4j utilizes the SLF4J logging API. In this set of example projects, a simple logback configuration is used to demonstrate basic logging to console.
+Discord4j utilizes the SLF4J logging API. In this project, a simple logback configuration is used to demonstrate basic logging to console.
 
 ## 🌳 Minecraft
 
