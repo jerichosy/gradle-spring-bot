@@ -28,7 +28,7 @@ public class CommandListener {
             .flatMap(content ->
                 Flux.fromIterable(commands)
                     // We will be using ! as our "prefix" to any command in the system.
-                    .filter(command -> content.startsWith("!" + command.getName()))
+                    .filter(command -> content.startsWith("!" + command.getName())) // FIXME: will match even with trailing characters, unsure if that's desired
                     .next() // Get the first matching command
                     .flatMap(command -> command.execute(event))
             ).then(); // return a Mono<Void> to complete the operation
