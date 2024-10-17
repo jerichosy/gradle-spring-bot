@@ -1,0 +1,12 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+        driver-class-name: org.postgresql.Driver
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+    jpa:
+        hibernate:
+            ddl-auto: validate  # or 'update', 'none', as necessary
+        show-sql: false  # shouldn't be logging in prod anyway
+
+# Consider externalizing sensitive configuration details using environment variables or another secure method
