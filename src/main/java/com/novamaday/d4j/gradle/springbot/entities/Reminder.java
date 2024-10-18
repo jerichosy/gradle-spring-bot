@@ -17,32 +17,25 @@ public class Reminder {
     private String message;
     private long triggerTime;
 
-    public Long getUserId() {
-        return userId;
+    public Reminder() { /* For JPA */ }
+
+    public Reminder(Long userId, Long channelId, String message, long triggerTime) {
+        this.userId = userId;
+        this.channelId = channelId;
+        this.message = message;
+        this.triggerTime = triggerTime;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public Long getUserId() {
+        return userId;
     }
 
     public Long getChannelId() {
         return channelId;
     }
 
-    public void setChannelId(Long channelId) {
-        this.channelId = channelId;
-    }
-
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public void setTriggerTime(long triggerTime) {
-        this.triggerTime = triggerTime;
     }
 
     @Override
