@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface ReminderRepository extends JpaRepository<Reminder, Long> {
     List<Reminder> findByTriggerTimeLessThan(long currentTimeMillis);
-//    List<Reminder> findByUserId(Long userId);
 }
