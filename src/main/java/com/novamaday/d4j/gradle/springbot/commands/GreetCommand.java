@@ -1,5 +1,6 @@
 package com.novamaday.d4j.gradle.springbot.commands;
 
+import com.novamaday.d4j.gradle.springbot.facade.commands.SlashCommand;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
 import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
@@ -27,7 +28,7 @@ public class GreetCommand implements SlashCommand {
             .get(); //This is warning us that we didn't check if its present, we can ignore this on required options
 
         //Reply to the slash command, with the name the user supplied
-        return  event.reply()
+        return event.reply()
             .withEphemeral(false)
             .withContent("Hello, " + name);
     }

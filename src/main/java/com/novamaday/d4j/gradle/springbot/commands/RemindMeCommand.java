@@ -1,6 +1,7 @@
 package com.novamaday.d4j.gradle.springbot.commands;
 
 import com.novamaday.d4j.gradle.springbot.entities.Reminder;
+import com.novamaday.d4j.gradle.springbot.facade.commands.SlashCommand;
 import com.novamaday.d4j.gradle.springbot.repositories.ReminderRepository;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
