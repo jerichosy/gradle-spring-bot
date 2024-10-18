@@ -9,53 +9,31 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 
 @Service
 public class ReminderService {
 
-    private static final Logger log = LoggerFactory.getLogger(ReminderService.class);
-
-    private final ReminderService reminderService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReminderService.class);
 
     private final GatewayDiscordClient client;
 
-    private final ReminderRepository repository;
+    private final ReminderRepository reminderRepository;
 
-    public ReminderService(ReminderService reminderService, GatewayDiscordClient client, ReminderRepository repository) {
-        this.reminderService = reminderService;
+    public ReminderService(GatewayDiscordClient client, ReminderRepository reminderRepository) {
         this.client = client;
-        this.repository = repository;
-    }
-
-    public Reminder saveReminder(Long userId, Long channelId, String message, long triggerTime) {
-        Reminder reminder = new Reminder();
-        reminder.setUserId(userId);
-        reminder.setChannelId(channelId);
-        reminder.setMessage(message);
-        reminder.setTriggerTime(triggerTime);
-        return repository.save(reminder);
-    }
-
-    public List<Reminder> getDueReminders(long currentTimeMillis) {
-        return repository.findByTriggerTimeLessThan(currentTimeMillis);
-    }
-
-    public void deleteReminder(Reminder reminder) {
-        repository.delete(reminder);
+        this.reminderRepository = reminderRepository;
     }
 
     @Scheduled(fixedRate = 5000)
     public void remindUsers() {
         long now = System.currentTimeMillis();
-        List<Reminder> dueReminders = reminderService.getDueReminders(now);
 
-        if (dueReminders.isEmpty()) {
-            return;
-        }
+        Collection<Reminder> dueReminders = reminderRepository.findByTriggerTimeLessThan(now);
 
-        log.info("Due Reminders: {}", dueReminders);
-        for (Reminder reminder : dueReminders) {
+        LOGGER.info("Due Reminders: {}", dueReminders);
+
+        dueReminders.forEach(reminder -> {
             // Send to the same guild channel where reminder was created
             // Retain this to make it clear to others that it works as intended
             client.getChannelById(Snowflake.of(reminder.getChannelId()))
@@ -71,7 +49,9 @@ public class ReminderService {
                 .subscribe();
 
             // Delete the reminder
-            reminderService.deleteReminder(reminder);
-        }
+            reminderRepository.delete(reminder);
+        });
+
+        reminderRepository.flush();
     }
 }
