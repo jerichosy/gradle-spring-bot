@@ -1,2 +1,2 @@
-rootProject.name = "springbot"
+rootProject.name = "DECLARATIVE Bot"
 
