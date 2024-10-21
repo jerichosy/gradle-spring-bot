@@ -1,4 +1,4 @@
-package com.novamaday.d4j.gradle.springbot;
+package com.segs.declarativebot;
 
 import discord4j.common.JacksonResources;
 import discord4j.discordjson.json.ApplicationCommandRequest;

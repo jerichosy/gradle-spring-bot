@@ -1,4 +1,4 @@
-package com.novamaday.d4j.gradle.springbot.facade.commands;
+package com.segs.declarativebot.facade.commands;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import reactor.core.publisher.Mono;

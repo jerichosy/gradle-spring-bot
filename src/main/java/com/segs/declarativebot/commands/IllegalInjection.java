@@ -1,6 +1,6 @@
-package com.novamaday.d4j.gradle.springbot.commands;
+package com.segs.declarativebot.commands;
 
-import com.novamaday.d4j.gradle.springbot.facade.commands.Command;
+import com.segs.declarativebot.facade.commands.Command;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;

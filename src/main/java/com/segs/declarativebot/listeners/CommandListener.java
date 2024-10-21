@@ -1,6 +1,6 @@
-package com.novamaday.d4j.gradle.springbot.listeners;
+package com.segs.declarativebot.listeners;
 
-import com.novamaday.d4j.gradle.springbot.facade.commands.Command;
+import com.segs.declarativebot.facade.commands.Command;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import org.springframework.stereotype.Component;

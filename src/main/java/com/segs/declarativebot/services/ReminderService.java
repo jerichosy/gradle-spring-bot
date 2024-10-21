@@ -1,7 +1,7 @@
-package com.novamaday.d4j.gradle.springbot.services;
+package com.segs.declarativebot.services;
 
-import com.novamaday.d4j.gradle.springbot.entities.Reminder;
-import com.novamaday.d4j.gradle.springbot.repositories.ReminderRepository;
+import com.segs.declarativebot.entities.Reminder;
+import com.segs.declarativebot.repositories.ReminderRepository;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import org.slf4j.Logger;
@@ -51,7 +51,5 @@ public class ReminderService {
             // Delete the reminder
             reminderRepository.delete(reminder);
         });
-
-        reminderRepository.flush();
     }
 }

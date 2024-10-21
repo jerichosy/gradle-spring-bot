@@ -1,6 +1,6 @@
-package com.novamaday.d4j.gradle.springbot.commands;
+package com.segs.declarativebot.commands;
 
-import com.novamaday.d4j.gradle.springbot.facade.commands.SlashCommand;
+import com.segs.declarativebot.facade.commands.SlashCommand;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;

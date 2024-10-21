@@ -1,4 +1,4 @@
-package com.novamaday.d4j.gradle.springbot.entities;
+package com.segs.declarativebot.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
