@@ -19,7 +19,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation("org.springframework.boot:spring-boot-starter-web:2.5.4")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.apache.commons:commons-lang3:3.17.0")
+    runtimeOnly("org.apache.commons:commons-lang3:3.17.0")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
+    testImplementation("org.testcontainers:testcontainers:1.20.2")
 }
