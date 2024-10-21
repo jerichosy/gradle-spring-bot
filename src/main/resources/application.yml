@@ -1,3 +1,7 @@
+discord:
+    bot:
+        token: ${BOT_TOKEN}
+
 spring:
     profiles:
         active: dev  # DO NOT CHANGE HERE! Specify using `export SPRING_PROFILES_ACTIVE=prod`
