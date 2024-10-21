@@ -1,7 +1,7 @@
 package com.segs.declarativebot.commands;
 
 import com.segs.declarativebot.entities.Reminder;
-import com.segs.declarativebot.facade.commands.SlashCommand;
+import com.segs.declarativebot.facade.SlashCommand;
 import com.segs.declarativebot.repositories.ReminderRepository;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;

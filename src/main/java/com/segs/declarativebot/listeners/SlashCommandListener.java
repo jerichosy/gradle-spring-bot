@@ -1,6 +1,6 @@
 package com.segs.declarativebot.listeners;
 
-import com.segs.declarativebot.facade.commands.SlashCommand;
+import com.segs.declarativebot.facade.SlashCommand;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import org.springframework.stereotype.Component;

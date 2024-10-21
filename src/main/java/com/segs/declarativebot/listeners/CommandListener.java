@@ -1,6 +1,6 @@
 package com.segs.declarativebot.listeners;
 
-import com.segs.declarativebot.facade.commands.Command;
+import com.segs.declarativebot.facade.Command;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import org.springframework.stereotype.Component;

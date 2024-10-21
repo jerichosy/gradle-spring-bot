@@ -1,6 +1,6 @@
 package com.segs.declarativebot.commands;
 
-import com.segs.declarativebot.facade.commands.Command;
+import com.segs.declarativebot.facade.Command;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
