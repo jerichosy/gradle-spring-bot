@@ -23,4 +23,5 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.testcontainers:testcontainers:1.20.2")
+    testImplementation("org.mockito:mockito-core:3.+")
 }
