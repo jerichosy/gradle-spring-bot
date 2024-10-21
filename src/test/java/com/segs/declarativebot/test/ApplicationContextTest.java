@@ -1,10 +1,9 @@
 package com.segs.declarativebot.test;
 
-import org.junit.Test;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.segs.declarativebot.test.base.AbstractIntegrationTestBase;
+import org.junit.jupiter.api.Test;
 
-@SpringBootApplication
-public class ApplicationContextTest {
+public class ApplicationContextTest extends AbstractIntegrationTestBase {
 
     @Test
     public void contextLoads() {
