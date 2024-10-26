@@ -1,4 +1,4 @@
-package com.novamaday.d4j.gradle.springbot;
+package com.segs.declarativebot;
 
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;

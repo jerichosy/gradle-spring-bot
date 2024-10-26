@@ -3,5 +3,7 @@ discord:
         token: ${BOT_TOKEN}
 
 spring:
+    application:
+        name: DECLARATIVE-bot
     profiles:
         active: dev  # DO NOT CHANGE HERE! Specify using `export SPRING_PROFILES_ACTIVE=prod`

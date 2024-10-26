@@ -1,24 +1,37 @@
 plugins {
     java
-
-    //Spring plugin
-    id("org.springframework.boot") version ("2.5.4")
-
-    id("io.spring.dependency-management") version ("1.0.11.RELEASE")
+    id("org.springframework.boot") version "3.3.4"
+    id("io.spring.dependency-management") version "1.1.6"
 }
 
-group = "com.novamaday.d4j.gradle"
-version = "2021.08.31"
+group = "com.segs"
+version = "0.0.1-SNAPSHOT"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("com.discord4j:discord4j-core:3.2.6")
-    implementation("ch.qos.logback:logback-classic:1.2.3")
-    implementation("org.springframework.boot:spring-boot-starter-web:2.5.4")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("com.discord4j:discord4j-core:3.2.6")
+    implementation("ch.qos.logback:logback-classic:1.4.12")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("org.apache.commons:commons-lang3:3.17.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
