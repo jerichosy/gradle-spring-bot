@@ -22,10 +22,10 @@ public class WebhookProcessorService {
     public Mono<EmbedCreateSpec> processWebhook(String payload) {
         try {
             JsonNode jsonNode = objectMapper.readTree(payload);
-            String hookType = jsonNode.has("hookType") ? jsonNode.get("hookType").asText() : "Unknown Event";
+            String title = generateTitle(jsonNode);
 
             EmbedCreateSpec.Builder embedBuilder = EmbedCreateSpec.builder()
-                .title("Webhook Event: " + hookType);
+                .title(title);
 
             // Dynamically add fields based on the JSON structure
             addFieldsRecursively(embedBuilder, jsonNode, "");
@@ -34,6 +34,30 @@ public class WebhookProcessorService {
         } catch (IOException e) {
             return Mono.error(e);
         }
+    }
+
+    private String generateTitle(JsonNode jsonNode) {
+        if (jsonNode.has("hookType")) {
+            String hookType = jsonNode.get("hookType").asText();
+            return "ZTNET Webhook Event: " + hookType;
+        } else {
+            // Try to find a suitable field for the title, or use a generic one
+            String titleField = findSuitableTitleField(jsonNode);
+            return titleField != null ? "Webhook Event: " + titleField : "Generic Webhook Event";
+        }
+    }
+
+    private String findSuitableTitleField(JsonNode jsonNode) {
+        // List of potential fields that could serve as a title
+        String[] potentialTitleFields = {"type", "event", "action", "name", "id"};
+
+        for (String field : potentialTitleFields) {
+            if (jsonNode.has(field)) {
+                return jsonNode.get(field).asText();
+            }
+        }
+
+        return null;
     }
 
     private void addFieldsRecursively(EmbedCreateSpec.Builder embedBuilder, JsonNode jsonNode, String prefix) {
