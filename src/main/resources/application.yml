@@ -1,10 +1,6 @@
 discord:
     bot:
         token: ${BOT_TOKEN}
-    webhook:
-        ztnet:
-            id: ${DISCORD_WEBHOOK_ZTNET_ID}
-            token: ${DISCORD_WEBHOOK_ZTNET_TOKEN}
 
 spring:
     application:

@@ -18,19 +18,12 @@ import java.util.stream.Collectors;
 public class DiscordWebhookService {
 
     private final RestClient restClient;
-    private final long webhookId;
-    private final String webhookToken;
 
-    public DiscordWebhookService(
-        RestClient restClient,
-        @Value("${discord.webhook.ztnet.id}") long webhookId,
-        @Value("${discord.webhook.ztnet.token}") String webhookToken) {
+    public DiscordWebhookService(RestClient restClient) {
         this.restClient = restClient;
-        this.webhookId = webhookId;
-        this.webhookToken = webhookToken;
     }
 
-    public Mono<Void> sendWebhookMessage(EmbedCreateSpec embedSpec) {
+    public Mono<Void> sendWebhookMessage(long webhookId, String webhookToken, EmbedCreateSpec embedSpec) {
         WebhookExecuteSpec spec = WebhookExecuteSpec.builder()
             .addEmbed(embedSpec.withColor(Color.BLUE))
             .build();

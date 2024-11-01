@@ -2,10 +2,7 @@ package com.segs.declarativebot.controllers;
 
 import com.segs.declarativebot.services.DiscordWebhookService;
 import com.segs.declarativebot.services.WebhookProcessorService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -20,9 +17,13 @@ public class WebhookController {
         this.discordWebhookService = discordWebhookService;
     }
 
-    @PostMapping
-    public Mono<Void> handleWebhook(@RequestBody String payload) {
+
+    @PostMapping("/{webhookId}/{webhookToken}")
+    public Mono<Void> handleWebhook(
+        @PathVariable long webhookId,
+        @PathVariable String webhookToken,
+        @RequestBody String payload) {
         return processorService.processWebhook(payload)
-            .flatMap(discordWebhookService::sendWebhookMessage);
+            .flatMap(embedSpec -> discordWebhookService.sendWebhookMessage(webhookId, webhookToken, embedSpec));
     }
 }
