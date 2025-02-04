@@ -27,7 +27,7 @@ public class ReminderServiceImpl implements ReminderService {
     @Autowired
     private ReminderRepository reminderRepository;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 10000)
     public void remindUsers() {
         long now = System.currentTimeMillis();
 
