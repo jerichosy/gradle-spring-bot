@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
 
 import java.util.Objects;
 
@@ -13,9 +14,16 @@ public class Reminder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Getter
     private Long userId;
+
+    @Getter
     private Long channelId;
+
+    @Getter
     private String message;
+
     private long triggerTime;
 
     public Reminder() { /* For JPA */ }
@@ -25,18 +33,6 @@ public class Reminder {
         this.channelId = channelId;
         this.message = message;
         this.triggerTime = triggerTime;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public Long getChannelId() {
-        return channelId;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     @Override

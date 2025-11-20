@@ -21,7 +21,6 @@ public class CommandListener {
         client.on(MessageCreateEvent.class, this::execute).subscribe();
     }
 
-
     public Mono<Void> execute(MessageCreateEvent event) {
         // 3.1 Message.getContent() is a String
         return Mono.just(event.getMessage().getContent())
