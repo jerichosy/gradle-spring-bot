@@ -1,7 +1,7 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.3.4"
-    id("io.spring.dependency-management") version "1.1.6"
+    id("org.springframework.boot") version "3.5.7"
+    id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "com.segs"
@@ -20,11 +20,11 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.discord4j:discord4j-core:3.2.6")
-    implementation("ch.qos.logback:logback-classic:1.4.12")
+    implementation("com.discord4j:discord4j-core:3.3.0")
+    implementation("ch.qos.logback:logback-classic:1.5.13")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
-    runtimeOnly("org.apache.commons:commons-lang3:3.17.0")
+    runtimeOnly("org.apache.commons:commons-lang3:3.18.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
