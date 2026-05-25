@@ -174,16 +174,10 @@ public class ReminderServiceImpl implements ReminderService {
                 return DEFAULT_REMINDER_MILLIS;
             }
 
-            long multiplier = switch (matcher.group(2)) {
-                case "s" -> 1000L;
-                case "m" -> 60_000L;
-                case "h" -> 3_600_000L;
-                case "d" -> 86_400_000L;
-                case "w" -> 604_800_000L;
-                default -> 0L;
-            };
-
-            if (multiplier == 0L) {
+            long multiplier;
+            try {
+                multiplier = resolveTimeMultiplier(matcher.group(2));
+            } catch (IllegalArgumentException e) {
                 return DEFAULT_REMINDER_MILLIS;
             }
 
@@ -201,5 +195,16 @@ public class ReminderServiceImpl implements ReminderService {
         }
 
         return totalMillis;
+    }
+
+    private long resolveTimeMultiplier(String unit) {
+        return switch (unit) {
+            case "s" -> 1000L;
+            case "m" -> 60_000L;
+            case "h" -> 3_600_000L;
+            case "d" -> 86_400_000L;
+            case "w" -> 604_800_000L;
+            default -> throw new IllegalArgumentException("Unsupported time unit: " + unit);
+        };
     }
 }
