@@ -13,6 +13,7 @@ public class Reminder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
     @Getter
@@ -24,6 +25,7 @@ public class Reminder {
     @Getter
     private String message;
 
+    @Getter
     private long triggerTime;
 
     public Reminder() { /* For JPA */ }

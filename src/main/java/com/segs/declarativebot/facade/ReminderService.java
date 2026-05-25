@@ -7,4 +7,8 @@ public interface ReminderService {
     void remindUsers();
 
     String addReminder(ChatInputInteractionEvent event);
+
+    String listReminders(ChatInputInteractionEvent event);
+
+    String deleteReminder(ChatInputInteractionEvent event);
 }

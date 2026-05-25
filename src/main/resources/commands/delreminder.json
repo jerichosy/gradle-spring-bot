@@ -1,0 +1,12 @@
+{
+    "name": "delreminder",
+    "description": "Delete a reminder by ID",
+    "options": [
+        {
+            "name": "id",
+            "description": "Reminder ID to delete",
+            "type": 4,
+            "required": true
+        }
+    ]
+}

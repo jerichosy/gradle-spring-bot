@@ -14,12 +14,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneOffset;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class ReminderServiceImpl implements ReminderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReminderServiceImpl.class);
+    private static final long DEFAULT_REMINDER_MILLIS = 10_000L;
+    private static final Pattern TIME_PART_PATTERN = Pattern.compile("(\\d+)([smhdw])");
+    private static final DateTimeFormatter REMINDER_TIME_FORMATTER =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss 'UTC'").withZone(ZoneOffset.UTC);
 
     @Autowired
     private GatewayDiscordClient client;
@@ -74,7 +85,7 @@ public class ReminderServiceImpl implements ReminderService {
 
         long triggerTime = System.currentTimeMillis() + parseTimeStringToMillis(timeString);
 
-        reminderRepository.save(new Reminder(
+        Reminder savedReminder = reminderRepository.save(new Reminder(
             event.getInteraction().getUser().getId().asLong(),
             event.getInteraction().getChannelId().asLong(),
             message,
@@ -82,24 +93,120 @@ public class ReminderServiceImpl implements ReminderService {
 
         LOGGER.info("Saved reminder for user id {}", event.getInteraction().getUser().getId().asString());
 
-        return "Reminder set for " + timeString + ".";
+        return "Reminder set for " + timeString + ". ID: " + savedReminder.getId() + ".";
+    }
+
+    @Override
+    public String listReminders(ChatInputInteractionEvent event) {
+        long userId = event.getInteraction().getUser().getId().asLong();
+        List<Reminder> reminders = reminderRepository.findByUserIdOrderByTriggerTimeAsc(userId);
+
+        if (reminders.isEmpty()) {
+            return "You do not have any reminders.";
+        }
+
+        StringBuilder content = new StringBuilder("Your reminders:\n");
+        for (Reminder reminder : reminders) {
+            String formattedTime = REMINDER_TIME_FORMATTER.format(Instant.ofEpochMilli(reminder.getTriggerTime()));
+            content.append("ID ").append(reminder.getId())
+                .append(" | ").append(formattedTime)
+                .append(" | ").append(reminder.getMessage())
+                .append('\n');
+        }
+
+        return content.toString().trim();
+    }
+
+    @Override
+    public String deleteReminder(ChatInputInteractionEvent event) {
+        Optional<Long> reminderId = event.getOption("id")
+            .flatMap(ApplicationCommandInteractionOption::getValue)
+            .map(ApplicationCommandInteractionOptionValue::asLong);
+
+        if (reminderId.isEmpty()) {
+            return "Reminder ID is required.";
+        }
+
+        long userId = event.getInteraction().getUser().getId().asLong();
+        Optional<Reminder> reminder = reminderRepository.findByIdAndUserId(reminderId.get(), userId);
+
+        if (reminder.isEmpty()) {
+            return "No reminder found with ID " + reminderId.get() + " for your account.";
+        }
+
+        reminderRepository.delete(reminder.get());
+        return "Deleted reminder " + reminderId.get() + ".";
     }
 
     // TODO: Swap this out for a library.
     private long parseTimeStringToMillis(String timeString) {
-        try {
-            long millis = Integer.parseInt(timeString.substring(0, timeString.length() - 1));
-            if (timeString.endsWith("s")) {
-                return millis * 1000L;
-            } else if (timeString.endsWith("m")) {
-                return millis * 60_000L;
-            } else if (timeString.endsWith("h")) {
-                return millis * 3_600_000L;
-            } else {
-                return Long.parseLong(timeString) * 1000L;
-            }
-        } catch (NumberFormatException e) {
-            return 10_000L;  // Defaults to 10 seconds if parsing fails
+        if (timeString == null) {
+            return DEFAULT_REMINDER_MILLIS;
         }
+
+        String normalized = timeString.trim().toLowerCase();
+        if (normalized.isEmpty()) {
+            return DEFAULT_REMINDER_MILLIS;
+        }
+
+        if (normalized.matches("\\d+")) {
+            try {
+                return Math.multiplyExact(Long.parseLong(normalized), 1000L);
+            } catch (NumberFormatException | ArithmeticException e) {
+                return DEFAULT_REMINDER_MILLIS;
+            }
+        }
+
+        String condensed = normalized.replaceAll("\\s+", "");
+        Matcher matcher = TIME_PART_PATTERN.matcher(condensed);
+        long totalMillis = 0L;
+        int nextExpectedIndex = 0;
+        boolean matched = false;
+
+        while (matcher.find()) {
+            if (matcher.start() != nextExpectedIndex) {
+                return DEFAULT_REMINDER_MILLIS;
+            }
+
+            matched = true;
+            long value;
+            try {
+                value = Long.parseLong(matcher.group(1));
+            } catch (NumberFormatException e) {
+                return DEFAULT_REMINDER_MILLIS;
+            }
+
+            long multiplier;
+            try {
+                multiplier = resolveTimeMultiplier(matcher.group(2));
+            } catch (IllegalArgumentException e) {
+                return DEFAULT_REMINDER_MILLIS;
+            }
+
+            try {
+                totalMillis = Math.addExact(totalMillis, Math.multiplyExact(value, multiplier));
+            } catch (ArithmeticException e) {
+                return DEFAULT_REMINDER_MILLIS;
+            }
+
+            nextExpectedIndex = matcher.end();
+        }
+
+        if (!matched || nextExpectedIndex != condensed.length() || totalMillis < 1000L) {
+            return DEFAULT_REMINDER_MILLIS;
+        }
+
+        return totalMillis;
+    }
+
+    private long resolveTimeMultiplier(String unit) {
+        return switch (unit) {
+            case "s" -> 1000L;
+            case "m" -> 60_000L;
+            case "h" -> 3_600_000L;
+            case "d" -> 86_400_000L;
+            case "w" -> 604_800_000L;
+            default -> throw new IllegalArgumentException("Unsupported time unit: " + unit);
+        };
     }
 }
