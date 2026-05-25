@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,8 @@ public class ReminderServiceImpl implements ReminderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReminderServiceImpl.class);
     private static final long DEFAULT_REMINDER_MILLIS = 10_000L;
     private static final Pattern TIME_PART_PATTERN = Pattern.compile("(\\d+)([smhdw])");
-    private static final DateTimeFormatter REMINDER_TIME_FORMATTER = DateTimeFormatter.ISO_INSTANT;
+    private static final DateTimeFormatter REMINDER_TIME_FORMATTER =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss 'UTC'").withZone(ZoneOffset.UTC);
 
     @Autowired
     private GatewayDiscordClient client;
@@ -158,11 +160,11 @@ public class ReminderServiceImpl implements ReminderService {
         String condensed = normalized.replaceAll("\\s+", "");
         Matcher matcher = TIME_PART_PATTERN.matcher(condensed);
         long totalMillis = 0L;
-        int lastMatchEnd = 0;
+        int nextExpectedIndex = 0;
         boolean matched = false;
 
         while (matcher.find()) {
-            if (matcher.start() != lastMatchEnd) {
+            if (matcher.start() != nextExpectedIndex) {
                 return DEFAULT_REMINDER_MILLIS;
             }
 
@@ -187,10 +189,10 @@ public class ReminderServiceImpl implements ReminderService {
                 return DEFAULT_REMINDER_MILLIS;
             }
 
-            lastMatchEnd = matcher.end();
+            nextExpectedIndex = matcher.end();
         }
 
-        if (!matched || lastMatchEnd != condensed.length() || totalMillis <= 0L) {
+        if (!matched || nextExpectedIndex != condensed.length() || totalMillis < 1000L) {
             return DEFAULT_REMINDER_MILLIS;
         }
 
